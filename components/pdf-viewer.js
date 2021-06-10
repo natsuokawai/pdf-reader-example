@@ -7,11 +7,11 @@ export default function PDFViewer() {
   const [file, setFile] = useState(null);
   const [random, setRandom] = useState(false);
   const [numPages, setNumPages] = useState(null);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [index, setIndex] = useState(0);
   const [pages, setPages] = useState([]);
 
   function onFileChange(event) {
-    setCurrentPage(0);
+    setIndex(0);
     setFile(event.target.files[0]);
   }
 
@@ -27,7 +27,7 @@ export default function PDFViewer() {
       return;
     }
     intervalRef.current = setInterval(() => {
-      setCurrentPage(c => c + 1);
+      setIndex(c => c + 1);
     }, 1000);
   }, []);
 
@@ -65,17 +65,17 @@ export default function PDFViewer() {
         <div>
           <button onClick={start}> start </button>
           <button onClick={stop}> stop </button>
-          <button onClick={() => setCurrentPage(0)}> reset </button>{' '}
-          <button onClick={() => setCurrentPage(currentPage - 1)}> ← </button>
-          <button onClick={() => setCurrentPage(currentPage + 1)}> → </button>{' '}
+          <button onClick={() => setIndex(0)}> reset </button>{' '}
+          <button onClick={() => setIndex(index - 1)}> ← </button>
+          <button onClick={() => setIndex(index + 1)}> → </button>{' '}
           <button onClick={() => setRandom(!random)}> { random ? 'random' : 'normal' } </button>
         </div> : null
       }
       <div>
         <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
             <Page
-              key={`page_${pages[currentPage + 1]}`}
-              pageNumber={pages[currentPage + 1]}
+              key={`page_${pages[index + 1]}`}
+              pageNumber={pages[index + 1]}
             />
         </Document>
       </div>
